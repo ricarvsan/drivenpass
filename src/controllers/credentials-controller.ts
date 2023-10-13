@@ -29,3 +29,12 @@ export async function createCredential(req: AuthenticatedRequest, res: Response)
 
   return res.status(httpStatus.OK).send(result);
 }
+
+export async function deleteCredential(req: AuthenticatedRequest, res: Response) {
+  const credentialId = Number(req.params.credentialId);
+  const { userId } = req;
+
+  const result = await credentialsServices.deleteCredentialById(userId, credentialId)
+
+  return res.status(httpStatus.OK).send(result);
+}

@@ -36,10 +36,19 @@ async function createCredential(credentialData: CredentialData) {
     return createdCredential;
 }
 
+async function deleteCredentialById(userId: number, credentialId: number){
+    const credential = await credentialsRepository.getCredentialById(credentialId);
+    if(!credential) throw notFoundError();
+    if(credential.userId !== userId) throw forbiddenError('Credential does not belong to the user!');
 
+    const deletedCredential = await credentialsRepository.deleteCredential(credentialId);
+
+    return deletedCredential;
+}
 
 export const credentialsServices = {
     getCredentialsByUserId,
     getCredentialsById,
-    createCredential
+    createCredential,
+    deleteCredentialById
 }
